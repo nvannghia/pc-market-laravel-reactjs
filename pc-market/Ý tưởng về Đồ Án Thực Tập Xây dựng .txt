@@ -1,0 +1,19 @@
+Ý tưởng về Đồ Án Thực Tập "Xây dựng website bán máy tính và linh kiện dùng Laravel":
+1.Back-end: Laravel
++ Chứng thực JWT
++ Làm API CRUD
+2.Front-end: JS thuần
++ Xây dựng giao diện
++ Call api có kèm các chứng thực
+
+
+=> Tìm hiểu để làm
+
+*** CRUD API
++Categories: Done
++Products: loading...
+
+
+
+** QUI ƯỚC ĐẶT TÊN
+https://www.linkedin.com/pulse/laravel-naming-conventions-thiago-delgado
