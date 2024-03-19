@@ -19,7 +19,7 @@ class CategoriesController extends Controller
         if ($categories->count() > 0) {
             return response()->json([
                 'status' => 'success',
-                'message' => 'Data Retrieved Ruccessfully',
+                'message' => 'Categories Data Retrieved Successfully',
                 'data' => $categories
             ], 200);
         } else {
@@ -51,7 +51,7 @@ class CategoriesController extends Controller
         if ($category) {
             return response()->json([
                 'status' => 'success',
-                'message' => "Data Retrieved Successfully",
+                'message' => "Category Data Retrieved Successfully",
                 'data' => $category
             ], 200);
         } else {
