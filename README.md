@@ -1,2 +1,2 @@
 # pc-market-laravel
-BE: Laravel API - FE: Js Core
+BE: Laravel API - FE: ReactJS
