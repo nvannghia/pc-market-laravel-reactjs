@@ -11,7 +11,8 @@
 
 *** CRUD API
 +Categories: Done
-+Products: list(done), loading...
++Products: Done
++Orders: loading...
 
 
 

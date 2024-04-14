@@ -20,7 +20,7 @@ class CategoriesController extends Controller
             return response()->json([
                 'status' => 'success',
                 'message' => 'Categories Data Retrieved Successfully',
-                'data' => $categories
+                'categories' => $categories
             ], 200);
         } else {
             return response()->json([
@@ -52,7 +52,7 @@ class CategoriesController extends Controller
             return response()->json([
                 'status' => 'success',
                 'message' => "Category Data Retrieved Successfully",
-                'data' => $category
+                'category' => $category
             ], 200);
         } else {
             return response()->json([
@@ -76,7 +76,7 @@ class CategoriesController extends Controller
                 return response()->json([
                     'status' => "success",
                     'message' => "Category Updated Successfully",
-                    'data' => $category
+                    'category' => $category
                 ], 200);
         } else {
             $data = [
@@ -96,7 +96,7 @@ class CategoriesController extends Controller
                 return response()->json([
                     'status' => "success",
                     'message' => "Category Deleted Successfully",
-                    'data' => $category
+                    'category' => $category
                 ], 200);
         } else {
             $data = [
