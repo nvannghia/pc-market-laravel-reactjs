@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\CategoriesController;
+use App\Http\Controllers\OrdersController;
+use App\Http\Controllers\OrdersDetailController;
 use App\Http\Controllers\ProductsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -33,3 +35,12 @@ Route::post('/products', [ProductsController::class, 'store']);
 Route::get('/products/{id}', [ProductsController::class, 'show']);
 Route::post('/products/update/{id}', [ProductsController::class, 'update']); // kh dùng put vì nó không hoạt động khi dungf postman form-data, có thể qua js đổi lại xem sao
 Route::delete('/products/{id}', [ProductsController::class, 'destroy']);
+
+//orders API routes
+Route::get('/orders', [OrdersController::class, 'index']);
+Route::post('/orders', [OrdersController::class, 'store']);
+
+
+//order-detail API routes
+Route::get('/orderdetail', [OrdersDetailController::class, 'index']);
+Route::post('/orderdetail', [OrdersDetailController::class, 'store']);
