@@ -55,7 +55,7 @@ const Categories = () => {
       <Table responsive="sm">
         <thead>
           <tr>
-            <th>#</th>
+            <th>ID</th>
             <th>Tên</th>
             <th>Danh mục cha</th>
             <th>Ngày tạo</th>
@@ -71,7 +71,7 @@ const Categories = () => {
               let url = `/edit-category/${c.id}`;
               return (
                 <tr key={c.id} id={c.id}>
-                  <td>{index + 1}</td>
+                  <td>{c.id}</td>
                   <td>{c.name}</td>
                   <td>{c.parent_id}</td>
                   <td>{c.created_at}</td>

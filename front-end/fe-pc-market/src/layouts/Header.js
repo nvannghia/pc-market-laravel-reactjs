@@ -33,7 +33,7 @@ const Header = () => {
                 <Link to="/categories">Danh Mục</Link>
               </NavDropdown.Item>
               <NavDropdown.Item href="#action/3.2">
-                <Link to="/add-product">Sản Phẩm</Link>
+                <Link to="/products">Sản Phẩm</Link>
               </NavDropdown.Item>
               <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
               <NavDropdown.Divider />
