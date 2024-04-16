@@ -63,7 +63,7 @@ class ProductsController extends Controller
             return response()->json([
                 'status' => 'success',
                 'message' => 'Product Data Retrieved Successfully',
-                'data' => $product
+                'product' => $product
             ], 200);
         } else {
             return response()->json([
@@ -108,7 +108,7 @@ class ProductsController extends Controller
                 return response()->json([
                     'status' => 'success',
                     'message' => 'Product Updated Successfully',
-                    'data' => $product
+                    'product' => $product
                 ], 200);
             }
         } else {
@@ -133,7 +133,7 @@ class ProductsController extends Controller
                 return response()->json([
                     'status' => 'success',
                     'message' => 'Product Deleted Successfully',
-                    'data' => $product
+                    'product' => $product
                 ], 200);
             }
         } else {

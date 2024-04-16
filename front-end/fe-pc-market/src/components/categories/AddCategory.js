@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import apiRouteConfig from "../../apiRouteConfig";
+import { BiArrowBack } from "react-icons/bi";
+import { BsReplyAllFill } from "react-icons/bs";
+import { Link } from "react-router-dom";
 
 const AddCategory = () => {
   const [categoryName, setCategoryName] = useState();
@@ -28,7 +31,33 @@ const AddCategory = () => {
   };
 
   return (
-    <div style={{ display: "flex", justifyContent: "center" }}>
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        flexDirection: "column",
+      }}
+    >
+      <Link to="/categories">
+        <BsReplyAllFill
+          className="backIcon"
+          style={{ fontSize: "300%" }}
+          title="Quay về trang danh sách danh mục"
+        />
+      </Link>
+      <h2
+        style={{
+          marginTop: "1%",
+          marginRight: "2%",
+          boxShadow: "3px 6px 3px grey",
+          padding: "1%",
+          backgroundColor: "rgb(209, 231, 221)",
+          borderRadius: "4px",
+        }}
+      >
+        Thêm Danh Mục
+      </h2>
       <Form
         onSubmit={handleSubmit}
         style={{ width: "50%", marginTop: "1%", marginBottom: "1%" }}
