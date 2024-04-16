@@ -22,7 +22,7 @@ class ProductsController extends Controller
             return response()->json([
                 'status' => 'success',
                 'message' => 'Products Data Retrieved Ruccessfully',
-                'data' => $products
+                'products' => $products
             ], 200);
         } else {
             return response()->json([
@@ -51,7 +51,7 @@ class ProductsController extends Controller
             return response()->json([
                 'status' => 'success',
                 'message' => 'Product Created Successfully',
-                'data' => $productInserted
+                'product' => $productInserted
             ], 201);
         }
     }
