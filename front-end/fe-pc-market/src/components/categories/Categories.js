@@ -44,10 +44,10 @@ const Categories = () => {
   };
   return (
     <>
-      <Button variant="info" style={{ marginTop: "1%" }}>
+      <Button variant="primary" style={{ marginTop: "1%" }}>
         <Link
           to="/add-category"
-          style={{ color: "black", textDecoration: "none" }}
+          style={{ color: "white", textDecoration: "none" }}
         >
           Thêm Danh Mục
         </Link>

@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { Button, Form } from "react-bootstrap";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import apiRouteConfig from "../../apiRouteConfig";
+import { BsReplyAllFill } from "react-icons/bs";
 
 const EditCategory = () => {
   const [categoryName, setCategoryName] = useState();
@@ -42,7 +43,33 @@ const EditCategory = () => {
       });
   };
   return (
-    <div style={{ display: "flex", justifyContent: "center" }}>
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        flexDirection: "column",
+      }}
+    >
+      <Link to="/categories">
+        <BsReplyAllFill
+          className="backIcon"
+          style={{ fontSize: "300%" }}
+          title="Quay về trang danh sách danh mục"
+        />
+      </Link>
+      <h2
+        style={{
+          marginTop: "1%",
+          marginRight: "2%",
+          boxShadow: "3px 6px 3px grey",
+          padding: "1%",
+          backgroundColor: "rgb(209, 231, 221)",
+          borderRadius: "4px",
+        }}
+      >
+        Sửa Danh Mục
+      </h2>
       <Form
         onSubmit={handleEditCategory}
         style={{ width: "50%", marginTop: "1%", marginBottom: "1%" }}

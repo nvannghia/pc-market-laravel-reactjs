@@ -11,6 +11,7 @@ import { Container } from "react-bootstrap";
 import EditCategory from "./components/categories/EditCategory";
 import Products from "./components/products/products";
 import AddProduct from "./components/products/AddProduct";
+import EditProduct from "./components/products/EditProduct";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
           <Route path="/edit-category/:cateID" element={<EditCategory />} />
           <Route path="/products" element={<Products />} />
           <Route path="/add-product" element={<AddProduct />} />
+          <Route path="/edit-product/:prodID" element={<EditProduct />} />
         </Routes>
       </Container>
       <Footer />
