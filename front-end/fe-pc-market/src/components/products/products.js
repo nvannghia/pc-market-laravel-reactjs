@@ -37,6 +37,10 @@ const Products = () => {
     if (isConfirm) {
       fetch(`${apiRouteConfig.domain}/products/${prodID}`, {
         method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
       })
         .then((res) => res.json())
         .then((data) => {

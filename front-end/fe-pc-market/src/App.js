@@ -3,7 +3,6 @@ import "./App.css";
 import Header from "./layouts/Header";
 import Footer from "./layouts/Footer";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Computer from "./components/Computer";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Categories from "./components/categories/Categories";
 import AddCategory from "./components/categories/AddCategory";
@@ -15,6 +14,7 @@ import EditProduct from "./components/products/EditProduct";
 import UserRegister from "./components/auth/UserRegister";
 import UserLogin from "./components/auth/UserLogin";
 import { createContext, useEffect, useReducer, useState } from "react";
+import Home from "./components/Home";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState();
@@ -34,7 +34,7 @@ function App() {
       <Header isLoggedIn={isLoggedIn} onLogin={handleLogin} />
       <Container>
         <Routes>
-          <Route path="/" element={<Computer />} />
+          <Route path="/" element={<Home />} />
           <Route path="/categories" element={<Categories />} />
           <Route path="/add-category" element={<AddCategory />} />
           <Route path="/edit-category/:cateID" element={<EditCategory />} />
