@@ -18,4 +18,5 @@ class Order extends Model
         "note",
         "user_id"
     ];
+    public $timestamps = true;
 }

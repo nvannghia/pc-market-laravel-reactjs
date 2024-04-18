@@ -1,0 +1,5 @@
+Các tasks còn lại:
+ + Làm login/logout có kèm JWT để call API
+
+ + Giỏ hàng, thanh toán 
+ + Thống kê

@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 import apiRouteConfig from "../../apiRouteConfig";
 import { FaRegEdit } from "react-icons/fa";
 import { AiOutlineDelete } from "react-icons/ai";
+import numeral from "numeral";
+import moment from "moment";
 
 const Products = () => {
   const [products, setProducts] = useState(null);
@@ -75,17 +77,17 @@ const Products = () => {
                 <tr id={p.id}>
                   <td>{p.id}</td>
                   <td>{p.name}</td>
-                  <td>{p.price}</td>
+                  <td>{numeral(p.price).format("0,0")}₫</td>
                   <td>
                     <img
                       style={{ width: "50%" }}
                       src={apiRouteConfig.domainImage + "/" + p.image}
                     />
                   </td>
-                  <td>{p.category_id}</td>
+                  <td>{p.category_name}</td>
                   <td>{p.description}</td>
-                  <td>{p.created_at}</td>
-                  <td>{p.updated_at}</td>
+                  <td>{moment(p.created_at).format("DD-MM-YYYY HH:mm:ss")}</td>
+                  <td>{moment(p.updated_at).format("DD-MM-YYYY HH:mm:ss")}</td>
                   <td>
                     <div
                       style={{

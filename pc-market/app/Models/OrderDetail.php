@@ -16,4 +16,5 @@ class OrderDetail extends Model
         'quantity',
         'unit_price',
     ];
+    public $timestamps = true;
 }

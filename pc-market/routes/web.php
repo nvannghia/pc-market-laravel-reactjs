@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoriesController;
 use Illuminate\Support\Facades\Route;
 
@@ -17,4 +18,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-// Route::get('/categories', [CategoriesController::class, 'create']);
+
+//authentication routes
+// Route::post('register', [AuthController::class, 'register']);
+// Route::post('/login', 'API\AuthController@login');
