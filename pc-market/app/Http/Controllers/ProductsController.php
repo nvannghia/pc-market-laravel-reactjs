@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProductRequest;
+use App\Models\Category;
 use App\Models\Product;
 use App\Traits\StorageImageTrait;
 use Illuminate\Support\Facades\Storage;
@@ -11,13 +12,20 @@ class ProductsController extends Controller
 {
     use StorageImageTrait;
     private $product;
-    public function __construct(Product $product)
+    private $category;
+    public function __construct(Product $product, Category $category)
     {
         $this->product = $product;
+        $this->category = $category;
     }
     public function index()
     {
         $products = $this->product->all();
+        foreach ($products as $key => $product) {
+            $category = $this->category->find($product->category_id);
+            $products[$key]['category_name'] = $category->name;
+        }
+
         if ($products->count() > 0) {
             return response()->json([
                 'status' => 'success',

@@ -5,12 +5,20 @@ import { FaRegEdit } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import "../styles.css";
 import apiRouteConfig from "../../apiRouteConfig";
+import moment from "moment";
 
 const Categories = () => {
   const [categories, setCategories] = useState(null);
 
+  const token = localStorage.getItem("token");
   useEffect(() => {
-    fetch(`${apiRouteConfig.domain}/categories`)
+    fetch(`${apiRouteConfig.domain}/categories`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    })
       .then((res) => res.json())
       .then((data) => {
         if (data.status === "success") {
@@ -74,8 +82,8 @@ const Categories = () => {
                   <td>{c.id}</td>
                   <td>{c.name}</td>
                   <td>{c.parent_id}</td>
-                  <td>{c.created_at}</td>
-                  <td>{c.updated_at}</td>
+                  <td>{moment(c.created_at).format("DD-MM-YYYY HH:mm:ss")}</td>
+                  <td>{moment(c.updated_at).format("DD-MM-YYYY HH:mm:ss")}</td>
                   <td>
                     <div
                       style={{

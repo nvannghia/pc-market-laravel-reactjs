@@ -122,7 +122,9 @@ const AddProduct = () => {
 
         <Form.Group className="mb-3">
           <Form.Label>Mô tả</Form.Label>
-          <Form.Control
+          <textarea
+            rows="3" // Adjust the number of visible lines as needed
+            style={{ width: "100%" }}
             name="description"
             onChange={handleChange}
             type="text"

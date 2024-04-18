@@ -1,8 +1,18 @@
 import { Container, Nav, NavDropdown, Navbar } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import Auth from "../components/auth/Auth";
+import { UserContext } from "../App";
+import { useContext } from "react";
 
-const Header = () => {
+const Header = ({ isLoggedIn, onLogin }) => {
   return (
+    // <div
+    //   style={{
+    //     display: "flex",
+    //     alignItems: "center",
+    //     justifyContent: "center",
+    //   }}
+    // >
     <Navbar collapseOnSelect expand="lg" className="bg-body-tertiary">
       <Container>
         <Navbar.Brand>
@@ -42,13 +52,14 @@ const Header = () => {
               </NavDropdown.Item>
             </NavDropdown>
             <Nav.Link href="#deets">Cart</Nav.Link>
-            <Nav.Link eventKey={2} href="#memes">
-              Login/Logout
+            <Nav.Link eventKey={2}>
+              <Auth isLogin={isLoggedIn} onLogin={onLogin} />
             </Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Container>
     </Navbar>
+    // </div>
   );
 };
 

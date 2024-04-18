@@ -12,11 +12,20 @@ import EditCategory from "./components/categories/EditCategory";
 import Products from "./components/products/products";
 import AddProduct from "./components/products/AddProduct";
 import EditProduct from "./components/products/EditProduct";
+import UserRegister from "./components/auth/UserRegister";
+import UserLogin from "./components/auth/UserLogin";
+import { createContext, useEffect, useReducer, useState } from "react";
 
 function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  // Hàm để cập nhật trạng thái đăng nhập
+  const handleLogin = (boolean) => {
+    setIsLoggedIn(boolean);
+  };
   return (
     <BrowserRouter>
-      <Header />
+      <Header isLoggedIn={isLoggedIn} onLogin={handleLogin} />
       <Container>
         <Routes>
           <Route path="/" element={<Computer />} />
@@ -26,6 +35,11 @@ function App() {
           <Route path="/products" element={<Products />} />
           <Route path="/add-product" element={<AddProduct />} />
           <Route path="/edit-product/:prodID" element={<EditProduct />} />
+          <Route path="/user-register" element={<UserRegister />} />
+          <Route
+            path="/user-login"
+            element={<UserLogin onLogin={handleLogin} />}
+          />
         </Routes>
       </Container>
       <Footer />

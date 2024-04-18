@@ -17,6 +17,7 @@ class Product extends Model
         "category_id",
         "description"
     ];
+    public $timestamps = true;
 
     public function category()
     {
