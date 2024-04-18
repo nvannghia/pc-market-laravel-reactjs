@@ -17,12 +17,18 @@ import UserLogin from "./components/auth/UserLogin";
 import { createContext, useEffect, useReducer, useState } from "react";
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState();
 
-  // Hàm để cập nhật trạng thái đăng nhập
   const handleLogin = (boolean) => {
     setIsLoggedIn(boolean);
   };
+
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      setIsLoggedIn(true);
+    }
+  }, []);
+
   return (
     <BrowserRouter>
       <Header isLoggedIn={isLoggedIn} onLogin={handleLogin} />

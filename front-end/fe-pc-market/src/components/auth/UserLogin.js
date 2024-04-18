@@ -26,8 +26,11 @@ const UserLogin = ({ onLogin }) => {
       .then((res) => res.json())
       .then((data) => {
         if (data.status === "success") {
+          console.log(data.user);
           localStorage.setItem("token", data.token);
           localStorage.setItem("username", data.user.name);
+          localStorage.setItem("userID", data.user.id);
+          localStorage.setItem("userRole", data.user.role);
           onLogin(true);
           navigate("/");
         } else {

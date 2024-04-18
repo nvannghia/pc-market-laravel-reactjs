@@ -3,12 +3,24 @@ import { Button, Form } from "react-bootstrap";
 import apiRouteConfig from "../../apiRouteConfig";
 import { Link } from "react-router-dom";
 import { BsReplyAllFill } from "react-icons/bs";
+import ToastsError from "../errors/ToastsError";
 
 const AddProduct = () => {
   const [categories, setCategories] = useState();
 
+  //check role
+  const userRole = localStorage.getItem("userRole");
+  const isAdmin = userRole && userRole === "ADMIN";
+
   useEffect(() => {
-    fetch(`${apiRouteConfig.domain}/categories`)
+    const token = localStorage.getItem("token") || null;
+    fetch(`${apiRouteConfig.domain}/categories`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    })
       .then((res) => res.json())
       .then((data) => {
         if (data.status === "success") {
@@ -50,8 +62,12 @@ const AddProduct = () => {
     formDataToSend.append("image", formData.image);
     formDataToSend.append("category_id", formData.category_id);
 
+    const token = localStorage.getItem("token") || null;
     fetch(`${apiRouteConfig.domain}/products`, {
       method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
       body: formDataToSend,
     })
       .then((res) => res.json())
@@ -63,86 +79,96 @@ const AddProduct = () => {
   };
 
   return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        flexDirection: "column",
-      }}
-    >
-      <Link to="/products">
-        <BsReplyAllFill
-          className="backIcon"
-          style={{ fontSize: "300%" }}
-          title="Quay về trang danh sách sản phẩm"
-        />
-      </Link>
-      <h2
-        style={{
-          marginTop: "1%",
-          marginRight: "2%",
-          boxShadow: "3px 6px 3px grey",
-          padding: "1%",
-          backgroundColor: "rgb(209, 231, 221)",
-          borderRadius: "4px",
-        }}
-      >
-        Thêm Sản Phẩm
-      </h2>
-      <Form
-        onSubmit={handleAddProduct}
-        style={{ width: "50%", marginTop: "1%", marginBottom: "1%" }}
-        encType="multipart/form-data"
-      >
-        <Form.Group className="mb-3">
-          <Form.Label>Tên sản phẩm</Form.Label>
-          <Form.Control
-            name="name"
-            onChange={handleChange}
-            type="text"
-            placeholder="Nhập tên sản phẩm . . ."
-          />
-        </Form.Group>
+    <>
+      {isAdmin ? (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            flexDirection: "column",
+          }}
+        >
+          <Link to="/products">
+            <BsReplyAllFill
+              className="backIcon"
+              style={{ fontSize: "300%" }}
+              title="Quay về trang danh sách sản phẩm"
+            />
+          </Link>
+          <h2
+            style={{
+              marginTop: "1%",
+              marginRight: "2%",
+              boxShadow: "3px 6px 3px grey",
+              padding: "1%",
+              backgroundColor: "rgb(209, 231, 221)",
+              borderRadius: "4px",
+            }}
+          >
+            Thêm Sản Phẩm
+          </h2>
+          <Form
+            onSubmit={handleAddProduct}
+            style={{ width: "50%", marginTop: "1%", marginBottom: "1%" }}
+            encType="multipart/form-data"
+          >
+            <Form.Group className="mb-3">
+              <Form.Label>Tên sản phẩm</Form.Label>
+              <Form.Control
+                name="name"
+                onChange={handleChange}
+                type="text"
+                placeholder="Nhập tên sản phẩm . . ."
+              />
+            </Form.Group>
 
-        <Form.Group className="mb-3">
-          <Form.Label>Giá</Form.Label>
-          <Form.Control
-            name="price"
-            onChange={handleChange}
-            type="text"
-            placeholder="Nhập giá sản phẩm . . ."
-          />
-        </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label>Giá</Form.Label>
+              <Form.Control
+                name="price"
+                onChange={handleChange}
+                type="text"
+                placeholder="Nhập giá sản phẩm . . ."
+              />
+            </Form.Group>
 
-        <Form.Group className="mb-3">
-          <Form.Label>Hình ảnh</Form.Label>
-          <Form.Control name="image" onChange={handleImageFile} type="file" />
-        </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label>Hình ảnh</Form.Label>
+              <Form.Control
+                name="image"
+                onChange={handleImageFile}
+                type="file"
+              />
+            </Form.Group>
 
-        <Form.Group className="mb-3">
-          <Form.Label>Mô tả</Form.Label>
-          <textarea
-            rows="3" // Adjust the number of visible lines as needed
-            style={{ width: "100%" }}
-            name="description"
-            onChange={handleChange}
-            type="text"
-            placeholder="Nhập mô tả sản phẩm . . ."
-          />
-        </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label>Mô tả</Form.Label>
+              <textarea
+                rows="3" // Adjust the number of visible lines as needed
+                style={{ width: "100%" }}
+                name="description"
+                onChange={handleChange}
+                type="text"
+                placeholder="Nhập mô tả sản phẩm . . ."
+              />
+            </Form.Group>
 
-        <Form.Label>Danh mục</Form.Label>
-        <Form.Select name="category_id" onChange={handleChange}>
-          <option disabled>Chọn danh mục</option>
-          {categories &&
-            categories.map((c) => <option value={c.id}>{c.name}</option>)}
-        </Form.Select>
-        <Button type="submit" style={{ marginTop: "1%" }}>
-          Thêm sản phẩm
-        </Button>
-      </Form>
-    </div>
+            <Form.Label>Danh mục</Form.Label>
+            <Form.Select name="category_id" onChange={handleChange}>
+              <option disabled>Chọn danh mục</option>
+              {categories &&
+                categories.map((c) => <option value={c.id}>{c.name}</option>)}
+            </Form.Select>
+            <Button type="submit" style={{ marginTop: "1%" }}>
+              Thêm sản phẩm
+            </Button>
+          </Form>
+        </div>
+      ) : (
+        <ToastsError />
+      )}
+    </>
   );
 };
 

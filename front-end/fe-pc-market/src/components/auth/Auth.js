@@ -7,7 +7,7 @@ const Auth = ({ isLogin, onLogin }) => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
+    localStorage.clear();
     onLogin(false);
     navigate("/user-login");
   };

@@ -2,7 +2,7 @@ import { useFormik } from "formik";
 import { useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { BsReplyAllFill } from "react-icons/bs";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import * as yup from "yup";
 import apiRouteConfig from "../../apiRouteConfig";
 
@@ -28,8 +28,11 @@ const UserRegister = () => {
     name: "",
     email: "",
     password: "",
+    role: "CUSTOMER",
     retypePassword: "",
   });
+
+  const nav = useNavigate();
 
   const [errors, setErrors] = useState({});
 
@@ -61,7 +64,7 @@ const UserRegister = () => {
           .then((data) => {
             if (data.status === "success") {
               alert("Đăng ký thành công!");
-              localStorage.setItem("token", data.token);
+              nav("/user-login");
             }
           });
       })
