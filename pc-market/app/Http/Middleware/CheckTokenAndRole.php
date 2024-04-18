@@ -26,7 +26,7 @@ class CheckTokenAndRole
         $user = $request->user();
 
         // Kiểm tra vai trò của người dùng
-        if (!$user || $user->role === 'admin') {
+        if (!$user || $user->role !== 'ADMIN') {
             return response()->json(['error' => 'Unauthorized', $user], 403);
         }
 

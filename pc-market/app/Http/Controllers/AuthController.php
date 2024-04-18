@@ -55,10 +55,10 @@ class AuthController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => bcrypt($request->password),
+            'role' => $request->role
         ]);
 
-        $token = JWTAuth::fromUser($user);
 
-        return response()->json(['status' => 'success', 'user' => $user, 'token' => $token], 201);
+        return response()->json(['status' => 'success', 'user' => $user], 201);
     }
 }

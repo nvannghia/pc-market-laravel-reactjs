@@ -5,6 +5,8 @@ import { UserContext } from "../App";
 import { useContext } from "react";
 
 const Header = ({ isLoggedIn, onLogin }) => {
+  const userRole = localStorage.getItem("userRole");
+  const isAdmin = userRole && userRole === "ADMIN";
   return (
     // <div
     //   style={{
@@ -38,19 +40,25 @@ const Header = ({ isLoggedIn, onLogin }) => {
             </NavDropdown>
           </Nav>
           <Nav>
-            <NavDropdown title="Admin thêm" id="collapsible-nav-dropdown">
-              <NavDropdown.Item href="/">
-                <Link to="/categories">Danh Mục</Link>
-              </NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.2">
-                <Link to="/products">Sản Phẩm</Link>
-              </NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item href="#action/3.4">
-                Separated link
-              </NavDropdown.Item>
-            </NavDropdown>
+            <>
+              {isAdmin ? (
+                <NavDropdown title="Admin thêm" id="collapsible-nav-dropdown">
+                  <NavDropdown.Item href="/">
+                    <Link to="/categories">Danh Mục</Link>
+                  </NavDropdown.Item>
+                  <NavDropdown.Item href="#action/3.2">
+                    <Link to="/products">Sản Phẩm</Link>
+                  </NavDropdown.Item>
+                  <NavDropdown.Item href="#action/3.3">
+                    Something
+                  </NavDropdown.Item>
+                  <NavDropdown.Divider />
+                  <NavDropdown.Item href="#action/3.4">
+                    Separated link
+                  </NavDropdown.Item>
+                </NavDropdown>
+              ) : null}
+            </>
             <Nav.Link href="#deets">Cart</Nav.Link>
             <Nav.Link eventKey={2}>
               <Auth isLogin={isLoggedIn} onLogin={onLogin} />
