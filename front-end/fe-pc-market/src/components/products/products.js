@@ -7,14 +7,24 @@ import { AiOutlineDelete } from "react-icons/ai";
 import numeral from "numeral";
 import moment from "moment";
 import ToastsError from "../errors/ToastsError";
+import "../styles.css";
+import ReactPaginate from "react-paginate";
+import { GoArrowLeft, GoArrowRight } from "react-icons/go";
 
 const Products = () => {
-  const [products, setProducts] = useState(null);
+  const [products, setProducts] = useState([]);
+
+  //pagination
+  const [currentPage, setCurrentPage] = useState(0);
+  const handlePageClick = (selectedPage) => {
+    setCurrentPage(selectedPage.selected);
+  };
 
   //check role
   const userRole = localStorage.getItem("userRole");
   const isAdmin = userRole && userRole === "ADMIN";
 
+  //get all products
   const token = localStorage.getItem("token") || null;
   useEffect(() => {
     fetch(`${apiRouteConfig.domain}/products`, {
@@ -32,6 +42,7 @@ const Products = () => {
       });
   }, []);
 
+  //delete a product
   const handleDeleteProduct = (prodID) => {
     const isConfirm = window.confirm("Bạn có chắc chắn muốn xóa sản phẩm này?");
     if (isConfirm) {
@@ -87,57 +98,70 @@ const Products = () => {
             </thead>
             <tbody>
               {products &&
-                products.map((p) => {
-                  let url = `/edit-product/${p.id}`;
-                  return (
-                    <tr id={p.id}>
-                      <td>{p.id}</td>
-                      <td>{p.name}</td>
-                      <td>{numeral(p.price).format("0,0")}₫</td>
-                      <td>
-                        <img
-                          style={{ width: "50%" }}
-                          src={apiRouteConfig.domainImage + "/" + p.image}
-                        />
-                      </td>
-                      <td>{p.category_name}</td>
-                      <td>{p.description}</td>
-                      <td>
-                        {moment(p.created_at).format("DD-MM-YYYY HH:mm:ss")}
-                      </td>
-                      <td>
-                        {moment(p.updated_at).format("DD-MM-YYYY HH:mm:ss")}
-                      </td>
-                      <td>
-                        <div
-                          style={{
-                            display: "flex",
-                            justifyContent: "space-evenly",
-                          }}
-                        >
-                          <Link to={url}>
-                            <FaRegEdit
-                              className="action"
-                              style={{ ...actionStyle, color: "darkblue" }}
-                            />
-                          </Link>
-                          &nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;
-                          <AiOutlineDelete
-                            className="action"
-                            style={{ ...actionStyle, color: "red" }}
-                            onClick={() => handleDeleteProduct(p.id)}
+                products
+                  .slice(currentPage * 2, (currentPage + 1) * 2)
+                  .map((p) => {
+                    let url = `/edit-product/${p.id}`;
+                    return (
+                      <tr id={p.id}>
+                        <td>{p.id}</td>
+                        <td>{p.name}</td>
+                        <td>{numeral(p.price).format("0,0")}₫</td>
+                        <td>
+                          <img
+                            style={{ width: "200px" }}
+                            src={apiRouteConfig.domainImage + "/" + p.image}
                           />
-                        </div>
-                      </td>
-                    </tr>
-                  );
-                })}
+                        </td>
+                        <td>{p.category_name}</td>
+                        <td>{p.description}</td>
+                        <td>
+                          {moment(p.created_at).format("DD-MM-YYYY HH:mm:ss")}
+                        </td>
+                        <td>
+                          {moment(p.updated_at).format("DD-MM-YYYY HH:mm:ss")}
+                        </td>
+                        <td>
+                          <div
+                            style={{
+                              display: "flex",
+                              justifyContent: "space-evenly",
+                            }}
+                          >
+                            <Link to={url}>
+                              <FaRegEdit
+                                className="action"
+                                style={{ ...actionStyle, color: "darkblue" }}
+                              />
+                            </Link>
+                            &nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;
+                            <AiOutlineDelete
+                              className="action"
+                              style={{ ...actionStyle, color: "red" }}
+                              onClick={() => handleDeleteProduct(p.id)}
+                            />
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })}
             </tbody>
           </Table>
         </div>
       ) : (
         <ToastsError />
       )}
+      <ReactPaginate
+        pageCount={Math.ceil(products.length / 2)} // Số lượng trang
+        pageRangeDisplayed={5} // Số lượng nút phân trang hiển thị
+        marginPagesDisplayed={2} // Số lượng trang hiển thị ở hai bên của nút đầu và cuối
+        onPageChange={handlePageClick} // Callback khi chuyển trang
+        containerClassName={"pagination"}
+        activeClassName={"active"}
+        previousLabel={<GoArrowLeft />} // Nhãn cho nút Previous
+        nextLabel={<GoArrowRight />} // Nhãn cho nút Next
+        disablePrevious={true}
+      />
     </>
   );
 };
