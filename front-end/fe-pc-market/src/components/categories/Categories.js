@@ -7,9 +7,17 @@ import "../styles.css";
 import apiRouteConfig from "../../apiRouteConfig";
 import moment from "moment";
 import ToastsError from "../errors/ToastsError";
+import ReactPaginate from "react-paginate";
+import { GoArrowLeft, GoArrowRight } from "react-icons/go";
 
 const Categories = () => {
-  const [categories, setCategories] = useState(null);
+  const [categories, setCategories] = useState([]);
+
+  //pagination
+  const [currentPage, setCurrentPage] = useState(0);
+  const handlePageClick = (selectedPage) => {
+    setCurrentPage(selectedPage.selected);
+  };
 
   //check role
   const userRole = localStorage.getItem("userRole");
@@ -89,49 +97,62 @@ const Categories = () => {
             </thead>
             <tbody>
               {categories &&
-                categories.map((c, index) => {
-                  let url = `/edit-category/${c.id}`;
-                  return (
-                    <tr key={c.id} id={c.id}>
-                      <td>{c.id}</td>
-                      <td>{c.name}</td>
-                      <td>{c.parent_id}</td>
-                      <td>
-                        {moment(c.created_at).format("DD-MM-YYYY HH:mm:ss")}
-                      </td>
-                      <td>
-                        {moment(c.updated_at).format("DD-MM-YYYY HH:mm:ss")}
-                      </td>
-                      <td>
-                        <div
-                          style={{
-                            display: "flex",
-                            justifyContent: "space-evenly",
-                          }}
-                        >
-                          <Link to={url}>
-                            <FaRegEdit
+                categories
+                  .slice(currentPage * 6, (currentPage + 1) * 6)
+                  .map((c, index) => {
+                    let url = `/edit-category/${c.id}`;
+                    return (
+                      <tr key={c.id} id={c.id}>
+                        <td>{c.id}</td>
+                        <td>{c.name}</td>
+                        <td>{c.parent_id}</td>
+                        <td>
+                          {moment(c.created_at).format("DD-MM-YYYY HH:mm:ss")}
+                        </td>
+                        <td>
+                          {moment(c.updated_at).format("DD-MM-YYYY HH:mm:ss")}
+                        </td>
+                        <td>
+                          <div
+                            style={{
+                              display: "flex",
+                              justifyContent: "space-evenly",
+                            }}
+                          >
+                            <Link to={url}>
+                              <FaRegEdit
+                                className="action"
+                                style={{ ...actionStyle, color: "darkblue" }}
+                              />
+                            </Link>
+                            |
+                            <AiOutlineDelete
                               className="action"
-                              style={{ ...actionStyle, color: "darkblue" }}
+                              style={{ ...actionStyle, color: "red" }}
+                              onClick={() => handleDeleteCategory(c.id)}
                             />
-                          </Link>
-                          |
-                          <AiOutlineDelete
-                            className="action"
-                            style={{ ...actionStyle, color: "red" }}
-                            onClick={() => handleDeleteCategory(c.id)}
-                          />
-                        </div>
-                      </td>
-                    </tr>
-                  );
-                })}
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })}
             </tbody>
           </Table>
         </>
       ) : (
         <ToastsError />
       )}
+      <ReactPaginate
+        pageCount={Math.ceil(categories.length / 6)} // Số lượng trang
+        pageRangeDisplayed={5} // Số lượng nút phân trang hiển thị
+        marginPagesDisplayed={2} // Số lượng trang hiển thị ở hai bên của nút đầu và cuối
+        onPageChange={handlePageClick} // Callback khi chuyển trang
+        containerClassName={"pagination"}
+        activeClassName={"active"}
+        previousLabel={<GoArrowLeft />} // Nhãn cho nút Previous
+        nextLabel={<GoArrowRight />} // Nhãn cho nút Next
+        disablePrevious={true}
+      />
     </>
   );
 };

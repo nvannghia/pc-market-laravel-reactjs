@@ -1,8 +1,17 @@
-import { Container, Nav, NavDropdown, Navbar } from "react-bootstrap";
+import {
+  Button,
+  Container,
+  Form,
+  Nav,
+  NavDropdown,
+  Navbar,
+} from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Auth from "../components/auth/Auth";
 import { useEffect, useState } from "react";
 import apiRouteConfig from "../apiRouteConfig";
+import { AiOutlineShoppingCart } from "react-icons/ai";
+import { BiSearchAlt } from "react-icons/bi";
 
 const Header = ({ isLoggedIn, onLogin }) => {
   const userRole = localStorage.getItem("userRole");
@@ -42,9 +51,9 @@ const Header = ({ isLoggedIn, onLogin }) => {
             <Nav.Link href="#pricing">Pricing</Nav.Link>
             <NavDropdown title="Danh mục" id="collapsible-nav-dropdown">
               {categories &&
-                categories.map((c) => {
+                categories.map((c, index) => {
                   return (
-                    <NavDropdown.Item>
+                    <NavDropdown.Item key={index}>
                       <Link to={"/?cateID=" + c.id}>{c.name}</Link>
                     </NavDropdown.Item>
                   );
@@ -76,7 +85,24 @@ const Header = ({ isLoggedIn, onLogin }) => {
                 </NavDropdown>
               ) : null}
             </>
-            <Nav.Link href="#deets">Cart</Nav.Link>
+
+            <Form className="d-flex" style={{ width: "500px" }}>
+              <Form.Control
+                type="search"
+                placeholder="Nhập tên sản phẩm . . ."
+                className="me-2"
+                aria-label="Search"
+              />
+              <Button variant="outline-success">
+                <BiSearchAlt />
+              </Button>
+            </Form>
+
+            <Nav.Link>
+              <AiOutlineShoppingCart
+                style={{ fontSize: "200%", color: "coral" }}
+              />
+            </Nav.Link>
             <Nav.Link eventKey={2}>
               <Auth isLogin={isLoggedIn} onLogin={onLogin} />
             </Nav.Link>

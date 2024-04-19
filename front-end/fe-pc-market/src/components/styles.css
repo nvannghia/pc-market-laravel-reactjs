@@ -6,3 +6,40 @@
   opacity: 0.5;
   color: #0d6efd;
 }
+
+/* //pagination css */
+.pagination {
+  margin: 2% 0;
+  display: flex;
+  list-style: none;
+  justify-content: center;
+  align-items: center;
+}
+
+.pagination li {
+  margin: 0 5px; /* Khoảng cách giữa các nút */
+}
+
+.pagination li a {
+  color: #333; /* Màu chữ của nút */
+  text-decoration: none;
+  padding: 8px 12px; /* Kích thước của nút */
+  border: 1px solid #ccc; /* Viền của nút */
+  border-radius: 4px; /* Bo góc của nút */
+}
+
+.pagination li a:hover {
+  background: #f0f0f0; /* Màu nền khi di chuột qua */
+}
+
+.pagination .active a {
+  background: #007bff; /* Màu nền của nút hiện tại */
+  color: #fff; /* Màu chữ của nút hiện tại */
+}
+
+/* text css when overflow */
+.overflow-hidden {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
