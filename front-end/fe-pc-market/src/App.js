@@ -15,6 +15,7 @@ import UserRegister from "./components/auth/UserRegister";
 import UserLogin from "./components/auth/UserLogin";
 import { createContext, useEffect, useReducer, useState } from "react";
 import Home from "./components/Home";
+import ShowCart from "./components/carts/ShowCart";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState();
@@ -42,6 +43,7 @@ function App() {
           <Route path="/add-product" element={<AddProduct />} />
           <Route path="/edit-product/:prodID" element={<EditProduct />} />
           <Route path="/user-register" element={<UserRegister />} />
+          <Route path="/show-cart" element={<ShowCart />} />
           <Route
             path="/user-login"
             element={<UserLogin onLogin={handleLogin} />}

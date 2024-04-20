@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
-import { Button, Card, Col, Container, Row } from "react-bootstrap";
+import { Button, Card, Col, Container, Form, Row } from "react-bootstrap";
 import { useSearchParams } from "react-router-dom";
 import apiRouteConfig from "../apiRouteConfig";
 import ReactPaginate from "react-paginate";
 import "./styles.css";
 import { GoArrowLeft, GoArrowRight } from "react-icons/go";
+import numeral from "numeral";
 
 const Home = () => {
   const [products, setProducts] = useState([]);
@@ -31,6 +32,68 @@ const Home = () => {
         }
       });
   }, [q]);
+
+  //add item to cart
+  const hanldeAddToCart = (evt) => {
+    evt.preventDefault();
+
+    const formData = new FormData(evt.target); // Lấy dữ liệu từ form
+
+    // Tạo một đối tượng chứa thông tin sản phẩm từ dữ liệu form
+    const product = {
+      id: formData.get("prodID"),
+      name: formData.get("prodName"),
+      image: formData.get("prodImg"),
+      quantity: formData.get("prodQuantity"),
+      price: formData.get("prodPrice"),
+    };
+
+    const isCartCreated = sessionStorage.getItem("cartArray") ? true : false;
+    if (isCartCreated) {
+      const cartArray = JSON.parse(sessionStorage.getItem("cartArray"));
+
+      // tìm xem đã có sp trong mảng lưu sessionStorage chưa?
+      const itemFound = cartArray.find((c) => {
+        return c.key === product.id;
+      });
+
+      //nếu đã có
+      if (itemFound) {
+        ++itemFound.value.quantity; // tăng số lượng lên 1
+        sessionStorage.setItem("cartArray", JSON.stringify(cartArray));
+      } else {
+        cartArray.push({
+          key: product.id,
+          value: {
+            name: product.name,
+            image: product.image,
+            quantity: product.quantity,
+            price: product.price,
+          },
+        });
+
+        sessionStorage.setItem("cartArray", JSON.stringify(cartArray));
+      }
+
+      console.log(JSON.parse(sessionStorage.getItem("cartArray")));
+    } else {
+      var cartArray = [
+        {
+          key: product.id,
+          value: {
+            name: product.name,
+            image: product.image,
+            quantity: product.quantity,
+            price: product.price,
+          },
+        },
+      ];
+      sessionStorage.setItem("cartArray", JSON.stringify(cartArray));
+      console.log("first time add to cart!");
+    }
+    alert(`Đã thêm sản phẩm \`${product.name}\` vào giỏ hàng!`);
+  };
+
   return (
     <Container>
       <h2
@@ -73,10 +136,55 @@ const Home = () => {
                       <Card.Title className="overflow-hidden">
                         {p.name}
                       </Card.Title>
+                      <Card.Text
+                        className="overflow-hidden"
+                        style={{ color: "coral" }}
+                      >
+                        {numeral(p.price).format("0,0")}₫
+                      </Card.Text>
                       <Card.Text className="overflow-hidden">
                         {p.description}
                       </Card.Text>
-                      <Button variant="primary">Thêm vào giỏ</Button>
+
+                      <Form
+                        onSubmit={hanldeAddToCart}
+                        style={{
+                          width: "50%",
+                          marginTop: "1%",
+                          marginBottom: "1%",
+                        }}
+                      >
+                        <Form.Group className="mb-3">
+                          <Form.Control
+                            type="hidden"
+                            name="prodID"
+                            value={p.id}
+                          />
+                          <Form.Control
+                            type="hidden"
+                            name="prodImg"
+                            value={p.image}
+                          />
+                          <Form.Control
+                            type="hidden"
+                            name="prodName"
+                            value={p.name}
+                          />
+                          <Form.Control
+                            type="hidden"
+                            name="prodQuantity"
+                            value={1}
+                          />
+                          <Form.Control
+                            type="hidden"
+                            name="prodPrice"
+                            value={p.price}
+                          />
+                        </Form.Group>
+                        <Button type="submit" style={{ marginTop: "1%" }}>
+                          Thêm vào giỏ
+                        </Button>
+                      </Form>
                     </Card.Body>
                   </Card>
                 </Col>

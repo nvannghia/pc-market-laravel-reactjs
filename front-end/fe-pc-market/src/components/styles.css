@@ -5,6 +5,7 @@
 .backIcon:hover {
   opacity: 0.5;
   color: #0d6efd;
+  cursor: pointer;
 }
 
 /* //pagination css */

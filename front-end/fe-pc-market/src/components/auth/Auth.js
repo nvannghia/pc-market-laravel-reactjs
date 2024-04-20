@@ -9,6 +9,7 @@ const Auth = ({ isLogin, onLogin }) => {
   const handleLogout = () => {
     localStorage.clear();
     onLogin(false);
+    sessionStorage.removeItem("cartArray"); // xóa giỏ hàng
     navigate("/user-login");
   };
 
@@ -17,7 +18,9 @@ const Auth = ({ isLogin, onLogin }) => {
       {isLogin ? (
         <>
           <AiOutlineUser style={{ fontSize: "200%", color: "darkblue" }} />{" "}
-          {localStorage.getItem("username")}
+          <span style={{ marginRight: "10px" }}>
+            {localStorage.getItem("username")}
+          </span>
           <Button onClick={handleLogout}>Đăng xuất</Button>
         </>
       ) : (
