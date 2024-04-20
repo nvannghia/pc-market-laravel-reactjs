@@ -2,6 +2,7 @@ import {
   Button,
   Container,
   Form,
+  Image,
   Nav,
   NavDropdown,
   Navbar,
@@ -12,6 +13,7 @@ import { useEffect, useState } from "react";
 import apiRouteConfig from "../apiRouteConfig";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { BiSearchAlt } from "react-icons/bi";
+import "../components/styles.css";
 
 const Header = ({ isLoggedIn, onLogin }) => {
   const userRole = localStorage.getItem("userRole");
@@ -41,7 +43,11 @@ const Header = ({ isLoggedIn, onLogin }) => {
       <Container>
         <Navbar.Brand>
           <Link to="/" style={{ color: "black", textDecoration: "none" }}>
-            PC-Market
+            <Image
+              src={process.env.PUBLIC_URL + "/logo-store.jpg"}
+              style={{ width: "80px" }}
+              thumbnail
+            />
           </Link>
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
@@ -54,14 +60,23 @@ const Header = ({ isLoggedIn, onLogin }) => {
                 categories.map((c, index) => {
                   return (
                     <NavDropdown.Item key={index}>
-                      <Link to={"/?cateID=" + c.id}>{c.name}</Link>
+                      <Link
+                        style={{
+                          display: "block",
+                          width: "100%",
+                          padding: "5px 10px",
+                        }}
+                        to={"/?cateID=" + c.id}
+                      >
+                        {c.name}
+                      </Link>
                     </NavDropdown.Item>
                   );
                 })}
 
               <NavDropdown.Divider />
-              <NavDropdown.Item href="#action/3.4">
-                Separated link
+              <NavDropdown.Item>
+                <Link to="/">Tất cả sản phẩm</Link>
               </NavDropdown.Item>
             </NavDropdown>
           </Nav>
@@ -70,10 +85,28 @@ const Header = ({ isLoggedIn, onLogin }) => {
               {isAdmin ? (
                 <NavDropdown title="Admin thêm" id="collapsible-nav-dropdown">
                   <NavDropdown.Item href="/">
-                    <Link to="/categories">Danh Mục</Link>
+                    <Link
+                      style={{
+                        display: "block",
+                        width: "100%",
+                        padding: "5px 10px",
+                      }}
+                      to="/categories"
+                    >
+                      Danh Mục
+                    </Link>
                   </NavDropdown.Item>
                   <NavDropdown.Item href="#action/3.2">
-                    <Link to="/products">Sản Phẩm</Link>
+                    <Link
+                      style={{
+                        display: "block",
+                        width: "100%",
+                        padding: "5px 10px",
+                      }}
+                      to="/products"
+                    >
+                      Sản Phẩm
+                    </Link>
                   </NavDropdown.Item>
                   <NavDropdown.Item href="#action/3.3">
                     Something
@@ -99,9 +132,15 @@ const Header = ({ isLoggedIn, onLogin }) => {
             </Form>
 
             <Nav.Link>
-              <AiOutlineShoppingCart
-                style={{ fontSize: "200%", color: "coral" }}
-              />
+              <Link to="/show-cart">
+                <AiOutlineShoppingCart
+                  style={{
+                    fontSize: "200%",
+                    color: "coral",
+                    marginLeft: "10x",
+                  }}
+                />
+              </Link>
             </Nav.Link>
             <Nav.Link eventKey={2}>
               <Auth isLogin={isLoggedIn} onLogin={onLogin} />
