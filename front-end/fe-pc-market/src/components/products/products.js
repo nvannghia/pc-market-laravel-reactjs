@@ -106,7 +106,9 @@ const Products = () => {
                       <tr id={p.id}>
                         <td>{p.id}</td>
                         <td>{p.name}</td>
-                        <td>{numeral(p.price).format("0,0")}₫</td>
+                        <td style={{ color: "coral" }}>
+                          {numeral(p.price).format("0,0")}₫
+                        </td>
                         <td>
                           <img
                             style={{ width: "200px" }}

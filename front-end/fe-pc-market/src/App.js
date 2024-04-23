@@ -16,6 +16,8 @@ import UserLogin from "./components/auth/UserLogin";
 import { createContext, useEffect, useReducer, useState } from "react";
 import Home from "./components/Home";
 import ShowCart from "./components/carts/ShowCart";
+import Statistical from "./components/statisticals/Statictical";
+import Orders from "./components/auth/Orders";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState();
@@ -48,6 +50,8 @@ function App() {
             path="/user-login"
             element={<UserLogin onLogin={handleLogin} />}
           />
+          <Route path="/statistical" element={<Statistical />} />
+          <Route path="/orders" element={<Orders />} />
         </Routes>
       </Container>
       <Footer />

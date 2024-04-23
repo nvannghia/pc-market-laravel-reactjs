@@ -6,6 +6,7 @@ import ReactPaginate from "react-paginate";
 import "./styles.css";
 import { GoArrowLeft, GoArrowRight } from "react-icons/go";
 import numeral from "numeral";
+import { BsCartPlus } from "react-icons/bs";
 
 const Home = () => {
   const [products, setProducts] = useState([]);
@@ -22,10 +23,18 @@ const Home = () => {
       .then((res) => res.json())
       .then((data) => {
         const listProducts = data.products;
-        let kw = q.get("cateID");
-        if (kw != null) {
+        let cateID = q.get("cateID");
+        let kw = q.get("kw");
+        if (cateID != null) {
           setProducts(
-            listProducts.filter((p) => p.category_id === parseInt(kw))
+            listProducts.filter((p) => p.category_id === parseInt(cateID))
+          );
+        } else if (kw != null) {
+          kw = kw.toLocaleLowerCase();
+          setProducts(
+            listProducts.filter(
+              (p) => p.name.toLocaleLowerCase().indexOf(kw) >= 0
+            )
           );
         } else {
           setProducts(listProducts);
@@ -181,8 +190,11 @@ const Home = () => {
                             value={p.price}
                           />
                         </Form.Group>
-                        <Button type="submit" style={{ marginTop: "1%" }}>
-                          Thêm vào giỏ
+                        <Button
+                          type="submit"
+                          style={{ marginTop: "1%", width: "100%" }}
+                        >
+                          <BsCartPlus style={{ fontSize: "200%" }} />
                         </Button>
                       </Form>
                     </Card.Body>
