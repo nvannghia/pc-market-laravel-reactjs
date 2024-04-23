@@ -25,7 +25,11 @@ class CheckTokenAndRole
         // Lấy thông tin người dùng từ token
         $user = $request->user();
 
-        // Kiểm tra vai trò của người dùng
+        //nếu là đặt hàng, get đơn hàng thì không cần check role
+        if ($request->action === 'order' || $request->action === 'orders')
+            return $next($request);
+
+        // Kiểm tra vai trò của người dùng, dùng cho các action chỉ dành cho admin
         if (!$user || $user->role !== 'ADMIN') {
             return response()->json(['error' => 'Unauthorized', $user], 403);
         }

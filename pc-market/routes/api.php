@@ -5,6 +5,7 @@ use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\OrdersController;
 use App\Http\Controllers\OrdersDetailController;
 use App\Http\Controllers\ProductsController;
+use App\Http\Controllers\StatisticalController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -50,10 +51,19 @@ Route::middleware('check.token.and.role')->group(function () {
 
 
 //orders API routes
-Route::get('/orders', [OrdersController::class, 'index']);
-Route::post('/orders', [OrdersController::class, 'store']);
-
+Route::middleware('check.token.and.role')->group(function () {
+    Route::get('/orders', [OrdersController::class, 'index']);
+    Route::post('/orders', [OrdersController::class, 'store']);
+    Route::post('/ordersList', [OrdersController::class, 'getAllOrderByUserId']);
+});
 
 //order-detail API routes
-Route::get('/orderdetail', [OrdersDetailController::class, 'index']);
-Route::post('/orderdetail', [OrdersDetailController::class, 'store']);
+Route::middleware('check.token.and.role')->group(function () {
+    Route::get('/orderdetail', [OrdersDetailController::class, 'index']);
+    Route::post('/orderdetail', [OrdersDetailController::class, 'store']);
+});
+
+//statistical API routes
+Route::middleware('check.token.and.role')->group(function () {
+    Route::post('/statistical', [StatisticalController::class, 'revenueStatistics']);
+});

@@ -86,7 +86,7 @@ const UserRegister = () => {
         flexDirection: "column",
       }}
     >
-      <Link to="/categories">
+      <Link to="/user-login">
         <BsReplyAllFill
           className="backIcon"
           style={{ fontSize: "300%" }}

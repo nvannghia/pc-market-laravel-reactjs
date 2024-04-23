@@ -47,13 +47,6 @@ const UserLogin = ({ onLogin }) => {
         flexDirection: "column",
       }}
     >
-      <Link to="/categories">
-        <BsReplyAllFill
-          className="backIcon"
-          style={{ fontSize: "300%" }}
-          title="Quay về trang đăng nhập"
-        />
-      </Link>
       <h2
         style={{
           marginTop: "1%",
