@@ -83,8 +83,6 @@ const Home = () => {
 
         sessionStorage.setItem("cartArray", JSON.stringify(cartArray));
       }
-
-      console.log(JSON.parse(sessionStorage.getItem("cartArray")));
     } else {
       var cartArray = [
         {
@@ -98,7 +96,6 @@ const Home = () => {
         },
       ];
       sessionStorage.setItem("cartArray", JSON.stringify(cartArray));
-      console.log("first time add to cart!");
     }
     alert(`Đã thêm sản phẩm \`${product.name}\` vào giỏ hàng!`);
   };

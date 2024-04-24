@@ -13,7 +13,13 @@ import AddProduct from "./components/products/AddProduct";
 import EditProduct from "./components/products/EditProduct";
 import UserRegister from "./components/auth/UserRegister";
 import UserLogin from "./components/auth/UserLogin";
-import { createContext, useEffect, useReducer, useState } from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useReducer,
+  useState,
+} from "react";
 import Home from "./components/Home";
 import ShowCart from "./components/carts/ShowCart";
 import Statistical from "./components/statisticals/Statictical";
@@ -21,7 +27,6 @@ import Orders from "./components/auth/Orders";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState();
-
   const handleLogin = (boolean) => {
     setIsLoggedIn(boolean);
   };

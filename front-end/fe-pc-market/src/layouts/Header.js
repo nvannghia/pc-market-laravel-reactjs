@@ -19,6 +19,15 @@ const Header = ({ isLoggedIn, onLogin }) => {
   const userRole = localStorage.getItem("userRole");
   const isAdmin = userRole && userRole === "ADMIN";
 
+  //count item in carts
+  // Retrieve cart array from sessionStorage and parse it, or initialize an empty array if it's not present
+  const cartArray = JSON.parse(sessionStorage.getItem("cartArray")) || [];
+  // Calculate the total number of items in the cart
+  const totalItems = cartArray.reduce(
+    (total, item) => total + parseInt(item.value.quantity),
+    0
+  );
+
   const nav = useNavigate();
 
   const [categories, setCategories] = useState(null);
@@ -117,7 +126,20 @@ const Header = ({ isLoggedIn, onLogin }) => {
             </Form>
 
             <Nav.Link>
-              <Link to="/show-cart">
+              <Link to="/show-cart" style={{ position: "relative" }}>
+                <span
+                  style={{
+                    position: "absolute",
+                    left: "70%",
+                    top: "-60%",
+                    backgroundColor: "coral",
+                    padding: "0px 8px",
+                    borderRadius: "8px",
+                    color: "#fff",
+                  }}
+                >
+                  {totalItems}
+                </span>
                 <AiOutlineShoppingCart
                   style={{
                     fontSize: "200%",
