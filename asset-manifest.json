@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/fe-pc-market/static/css/main.2143f84f.css",
+    "main.js": "/fe-pc-market/static/js/main.cc7908b3.js",
+    "static/js/453.2bb73c69.chunk.js": "/fe-pc-market/static/js/453.2bb73c69.chunk.js",
+    "static/media/logo.svg": "/fe-pc-market/static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg",
+    "index.html": "/fe-pc-market/index.html",
+    "main.2143f84f.css.map": "/fe-pc-market/static/css/main.2143f84f.css.map",
+    "main.cc7908b3.js.map": "/fe-pc-market/static/js/main.cc7908b3.js.map",
+    "453.2bb73c69.chunk.js.map": "/fe-pc-market/static/js/453.2bb73c69.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.2143f84f.css",
+    "static/js/main.cc7908b3.js"
+  ]
+}
