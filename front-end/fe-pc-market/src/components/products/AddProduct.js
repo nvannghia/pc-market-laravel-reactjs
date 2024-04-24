@@ -46,6 +46,9 @@ const AddProduct = () => {
   };
 
   const handleImageFile = (evt) => {
+    // display the image
+    const image = document.getElementById("prodIMG");
+    image.src = URL.createObjectURL(evt.target.files[0]);
     setFormData((prevState) => ({
       ...prevState,
       image: evt.target.files[0], // Lưu trữ đối tượng File của hình ảnh
@@ -74,6 +77,11 @@ const AddProduct = () => {
       .then((data) => {
         if (data.status === "success") {
           alert(`Thêm sản phẩm \`${data.product.name}\` thành công!`);
+          //reset the form and delete image display of previous product
+          document.getElementById("addProductForm").reset();
+          document.getElementById("prodIMG").setAttribute("src", "#");
+        } else {
+          alert("Thêm sản phẩm thất bại! Vui lòng kiểm tra lại các thông tin.");
         }
       });
   };
@@ -109,6 +117,7 @@ const AddProduct = () => {
             Thêm Sản Phẩm
           </h2>
           <Form
+            id="addProductForm"
             onSubmit={handleAddProduct}
             style={{ width: "50%", marginTop: "1%", marginBottom: "1%" }}
             encType="multipart/form-data"
@@ -135,7 +144,9 @@ const AddProduct = () => {
 
             <Form.Group className="mb-3">
               <Form.Label>Hình ảnh</Form.Label>
+              <img src="abc.png" id="prodIMG" width="50%" />
               <Form.Control
+                id="image"
                 name="image"
                 onChange={handleImageFile}
                 type="file"
