@@ -2,11 +2,22 @@ import { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import { AiOutlineUser, AiOutlineUserDelete } from "react-icons/ai";
 import { Link, useNavigate } from "react-router-dom";
+import apiRouteConfig from "../../apiRouteConfig";
 
 const Auth = ({ isLogin, onLogin }) => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
+    //call API to delete token (server will delete token)
+    const token = localStorage.getItem("token");
+    fetch(`${apiRouteConfig.domain}/logout`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    //clear client info
     localStorage.clear();
     onLogin(false);
     sessionStorage.removeItem("cartArray"); // xóa giỏ hàng

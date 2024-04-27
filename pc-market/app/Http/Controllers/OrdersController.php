@@ -83,20 +83,6 @@ class OrdersController extends Controller
                 'message' => $e->getMessage()
             ]);
         }
-
-
-        if ($order) {
-            return response()->json([
-                'status' => 'success',
-                'message' => 'Order Created Successfully',
-                'data' => $order
-            ], 201);
-        }
-        return response()->json([
-            'status' => 'failed',
-            'message' => 'Failed!',
-            'data' => $order
-        ], 404);
     }
 
     public function getAllOrderByUserId(Request $request)

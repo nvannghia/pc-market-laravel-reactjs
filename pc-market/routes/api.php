@@ -27,16 +27,19 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //authentication
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
+Route::post('/logout', [AuthController::class, 'logout']);
 
-//categories API routes
+
 Route::get('/categories', [CategoriesController::class, 'index']); // this route use for cusomer and admin
 Route::get('/products', [ProductsController::class, 'index']); // this route use for cusomer and admin
 
+//categories API routes
 Route::middleware('check.token.and.role')->group(function () {
     Route::post('/categories', [CategoriesController::class, 'store']);
     Route::get('/categories/{id}', [CategoriesController::class, 'show']);
     Route::put('/categories/{id}', [CategoriesController::class, 'update']);
     Route::delete('/categories/{id}', [CategoriesController::class, 'destroy']);
+    Route::delete('/delete-categories', [CategoriesController::class, 'deleteCatesById']);
 });
 
 //products API routes
