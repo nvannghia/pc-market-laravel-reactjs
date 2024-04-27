@@ -9,6 +9,7 @@ import moment from "moment";
 import ToastsError from "../errors/ToastsError";
 import ReactPaginate from "react-paginate";
 import { GoArrowLeft, GoArrowRight } from "react-icons/go";
+import { HiOutlineTrash } from "react-icons/hi";
 
 const Categories = () => {
   const [categories, setCategories] = useState([]);
@@ -70,6 +71,56 @@ const Categories = () => {
         });
     }
   };
+
+  const selectAll = () => {
+    const checkAll = document.getElementById("checkAll");
+    const checkboxes = document.querySelectorAll("input[type=checkbox]");
+    if (checkAll.checked) {
+      checkboxes.forEach((checkbox) => {
+        checkbox.checked = true;
+      });
+    } else {
+      checkboxes.forEach((checkbox) => {
+        checkbox.checked = false;
+      });
+    }
+  };
+
+  const deleteChecked = () => {
+    const isConfirm = window.confirm(
+      "Bạn có chắc muốn xóa các danh mục đã chọn?"
+    );
+    if (isConfirm) {
+      const checkedCheckboxes = document.querySelectorAll(
+        "input[type=checkbox]:checked:not(#checkAll)" // lấy tất cả thẻ input có type là checkbox đã được checked ngoại trừ input có id "checkAll"
+      );
+      const idCates = [];
+      if (checkedCheckboxes.length > 0) {
+        checkedCheckboxes.forEach((input) => {
+          idCates.push(input.id);
+        });
+        //call api to delete
+        const token = localStorage.getItem("token");
+        fetch(`${apiRouteConfig.domain}/delete-categories`, {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            catesId: idCates,
+          }),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.status === "success") {
+              alert(`Đã xóa các danh mục được chọn!`);
+              setCategories(data.categories);
+            }
+          });
+      }
+    }
+  };
   return (
     <>
       {isAdmin ? (
@@ -85,6 +136,19 @@ const Categories = () => {
           <Table responsive="sm">
             <thead>
               <tr>
+                <th className="d-flex justify-content-center align-items-center ">
+                  <input
+                    type="checkbox"
+                    id="checkAll"
+                    onChange={selectAll}
+                    className="checkbox-large"
+                  />
+                  <HiOutlineTrash
+                    className="action"
+                    style={{ color: "red", fontSize: "50px" }}
+                    onClick={deleteChecked}
+                  />
+                </th>
                 <th>ID</th>
                 <th>Tên</th>
                 <th>Danh mục cha</th>
@@ -103,6 +167,13 @@ const Categories = () => {
                     let url = `/edit-category/${c.id}`;
                     return (
                       <tr key={c.id} id={c.id}>
+                        <td>
+                          <input
+                            type="checkbox"
+                            id={c.id}
+                            className="checkbox-large"
+                          />
+                        </td>
                         <td>{c.id}</td>
                         <td>{c.name}</td>
                         <td>{c.parent_id}</td>

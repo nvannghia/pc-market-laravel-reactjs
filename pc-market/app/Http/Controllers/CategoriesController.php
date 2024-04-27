@@ -15,7 +15,7 @@ class CategoriesController extends Controller
     }
     public function index()
     {
-        $categories = $this->categories->all();
+        $categories = $this->categories->orderByDesc('created_at')->get();
         if ($categories->count() > 0) {
             return response()->json([
                 'status' => 'success',
@@ -104,6 +104,20 @@ class CategoriesController extends Controller
                 'message' => "No Such Category Found"
             ];
             return response()->json($data, 404);
+        }
+    }
+
+    public function deleteCatesById(Request $request)
+    {
+        $catesId = $request->catesId;
+        if (count($catesId) > 0) {
+            $this->categories->whereIn('id', $catesId)->delete();
+            $categories = $this->categories->orderByDesc('created_at')->get();
+            return response()->json([
+                'status' => "success",
+                'message' => "Categories Deleted Successfully",
+                'categories' => $categories
+            ], 200);
         }
     }
 }

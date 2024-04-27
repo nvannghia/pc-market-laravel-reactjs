@@ -38,6 +38,7 @@ const Statistical = () => {
         setDay(30);
         break;
       case "2":
+        const year = yearRef.current.value;
         if (isLeapYear(year)) {
           setDay(29);
           break;

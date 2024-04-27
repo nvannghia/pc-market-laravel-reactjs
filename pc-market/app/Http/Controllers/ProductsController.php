@@ -20,7 +20,7 @@ class ProductsController extends Controller
     }
     public function index()
     {
-        $products = $this->product->all();
+        $products = $this->product->orderByDesc('created_at')->get();
         foreach ($products as $key => $product) {
             $category = $this->category->find($product->category_id);
             $products[$key]['category_name'] = $category->name;
