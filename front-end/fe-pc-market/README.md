@@ -1,3 +1,5 @@
+<!-- // nếu chưa có thư mục node_modules ==> chạy lệnh npm install hoặc yarn install để cài lại các dependencies cần thiết cho hệ thống   -->
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
