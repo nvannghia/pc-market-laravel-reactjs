@@ -24,43 +24,64 @@ import Home from "./components/Home";
 import ShowCart from "./components/carts/ShowCart";
 import Statistical from "./components/statisticals/Statictical";
 import Orders from "./components/auth/Orders";
+import CartCounterReducer from "./reducers/CartCounterReducer";
+import AuthReducer from "./reducers/AuthReducer";
+
+export const CartCounterContext = createContext();
+export const AuthContext = createContext();
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState();
-  const handleLogin = (boolean) => {
-    setIsLoggedIn(boolean);
-  };
+  
+  const initCounter = () => {
+    const cartArray = JSON.parse(sessionStorage.getItem("cartArray")) || [];
+    let countItem = 0;
+    cartArray.forEach(item => {
+      countItem += parseInt(item.value.quantity);
+    });
 
-  useEffect(() => {
-    if (localStorage.getItem("token")) {
-      setIsLoggedIn(true);
-    }
-  }, []);
+    return countItem;
+  }
+
+  const initUser = () => {
+    const user = JSON.parse(localStorage.getItem("user")) || null;
+    return user;
+  }
+
+  const [cartCounter, cartDispatch] = useReducer(CartCounterReducer, 0, initCounter);
+  const [Auth, AuthDispatch] = useReducer(AuthReducer, null, initUser);
+
+
+
 
   return (
-    <BrowserRouter>
-      <Header isLoggedIn={isLoggedIn} onLogin={handleLogin} />
-      <Container>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/categories" element={<Categories />} />
-          <Route path="/add-category" element={<AddCategory />} />
-          <Route path="/edit-category/:cateID" element={<EditCategory />} />
-          <Route path="/products" element={<Products />} />
-          <Route path="/add-product" element={<AddProduct />} />
-          <Route path="/edit-product/:prodID" element={<EditProduct />} />
-          <Route path="/user-register" element={<UserRegister />} />
-          <Route path="/show-cart" element={<ShowCart />} />
-          <Route
-            path="/user-login"
-            element={<UserLogin onLogin={handleLogin} />}
-          />
-          <Route path="/statistical" element={<Statistical />} />
-          <Route path="/orders" element={<Orders />} />
-        </Routes>
-      </Container>
-      <Footer />
-    </BrowserRouter>
+    <AuthContext.Provider value={[Auth, AuthDispatch]}>
+      <CartCounterContext.Provider value={[cartCounter, cartDispatch]}>
+        <BrowserRouter>
+          <Header />
+          <Container>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/categories" element={<Categories />} />
+              <Route path="/add-category" element={<AddCategory />} />
+              <Route path="/edit-category/:cateID" element={<EditCategory />} />
+              <Route path="/products" element={<Products />} />
+              <Route path="/add-product" element={<AddProduct />} />
+              <Route path="/edit-product/:prodID" element={<EditProduct />} />
+              <Route path="/user-register" element={<UserRegister />} />
+              <Route path="/show-cart" element={<ShowCart />} />
+              <Route
+                path="/user-login"
+                element={<UserLogin />}
+              />
+              <Route path="/statistical" element={<Statistical />} />
+              <Route path="/orders" element={<Orders />} />
+            </Routes>
+          </Container>
+          <Footer />
+        </BrowserRouter>
+      </CartCounterContext.Provider>
+    </AuthContext.Provider>
+
   );
 }
 

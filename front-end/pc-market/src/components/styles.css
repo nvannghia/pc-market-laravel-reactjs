@@ -50,3 +50,13 @@
   width: 100%;
   height: 20px;
 }
+
+/* sweet alert 2  css */
+.my-custom-title-class {
+  font-size: 150%;
+}
+
+.my-custom-icon-class {
+  font-size: 80%; /* Đặt kích thước biểu tượng tại đây */
+}
+

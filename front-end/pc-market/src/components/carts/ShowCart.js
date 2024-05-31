@@ -1,16 +1,25 @@
 import { Button, Container, FloatingLabel, Form, Table } from "react-bootstrap";
 import apiRouteConfig from "../../apiRouteConfig";
 import numeral from "numeral";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { TiDeleteOutline } from "react-icons/ti";
 import { Link, useNavigate } from "react-router-dom";
-
+import { CartCounterContext } from "../../App";
+import Swal from "sweetalert2";
+import "../styles.css";
 const ShowCart = () => {
   const [cartItems, setCartItems] = useState(
     JSON.parse(sessionStorage.getItem("cartArray")) || []
   );
 
+  // lưu giá trị để biết người dùng đang ấn giảm hay tăng giá trị số l
+  const [previousValues, setPreviousValues] = useState(
+    cartItems.map(item => item.value.quantity)
+  );
+
   const nav = useNavigate();
+
+  const [cartCounter, cartDispatch] = useContext(CartCounterContext);
 
   //check isLogin for payment
   const userID = localStorage.getItem("userID");
@@ -18,27 +27,103 @@ const ShowCart = () => {
   var total = 0;
 
   const handleQuantityChange = (index, newValue) => {
+    const newQuantity = parseInt(newValue);
+    const previousQuantity = previousValues[index];
+
+    if (newQuantity > previousQuantity) {
+      cartDispatch({
+        type: "inc",
+        payload: {
+          num: 1
+        }
+      })
+    } else if (newQuantity < previousQuantity) {
+      cartDispatch({
+        type: "desc",
+        payload: {
+          num: 1
+        }
+      })
+    }
+
     const updatedCartItems = [...cartItems];
     updatedCartItems[index].value.quantity = parseInt(newValue);
     sessionStorage.setItem("cartArray", JSON.stringify(updatedCartItems));
     setCartItems(updatedCartItems);
+
+
+    //update lại giá trị số lượng
+    const updatedPreviousValues = [...previousValues];
+    updatedPreviousValues[index] = newQuantity;
+    setPreviousValues(updatedPreviousValues);
   };
 
   const handleDelete = (index) => {
+    //khi xóa một sản phẩm thì phải trừ đi số lượng tương ứng của sp trong giỏ hàng
+    const currentQuantity = cartItems[index].value.quantity;
+    cartDispatch({
+      type: "desc",
+      payload: {
+        num: parseInt(currentQuantity)
+      }
+    })
+
     const updatedCartItems = [...cartItems];
     updatedCartItems.splice(index, 1);
     sessionStorage.setItem("cartArray", JSON.stringify(updatedCartItems));
     setCartItems(updatedCartItems);
+
+    //update lại giá trị số lượng
+    const updatedPreviousValues = [...previousValues];
+    updatedPreviousValues.splice(index, 1);
+    setPreviousValues(updatedPreviousValues);
+
   };
 
   const handleDeleteAll = () => {
-    const isConfirm = window.confirm(
-      "Bạn có chắc muốn xóa hết tất cả sản phẩm trong giỏ hàng?"
-    );
-    if (isConfirm) {
-      sessionStorage.setItem("cartArray", JSON.stringify([])); // set thành rỗng để kh lỗi lần sau ấn vào!
-      setCartItems([]);
-    }
+    Swal.fire({
+      title: "Bạn có chắc chắn?",
+      text: "Sẽ xóa tất cả sản phẩm trong giỏ",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Xóa",
+      cancelButtonText: "Hủy"
+    }).then((result) => {
+      if (result.isConfirmed) {
+
+        // all quantities of all products
+        const totalQuanties = previousValues.reduce((accumulator, currentValue) => {
+          return accumulator + parseInt(currentValue);
+        }, 0);
+
+        cartDispatch({
+          type: "desc",
+          payload: {
+            num: parseInt(totalQuanties)
+          }
+        })
+
+        sessionStorage.setItem("cartArray", JSON.stringify([])); // set thành rỗng để kh lỗi lần sau ấn vào!
+        setCartItems([]);
+        setPreviousValues([]);
+
+        Swal.fire({
+          position: "center-center",
+          icon: "success",
+          title: "Đã xóa giỏ hàng",
+          showConfirmButton: false,
+          timer: 1500,
+          width: '16em',
+          customClass: {
+            title: 'my-custom-title-class',
+            icon: 'my-custom-icon-class',
+          }
+        });
+      }
+    });
+
   };
 
   //order function
@@ -143,7 +228,7 @@ const ShowCart = () => {
                       name="quantity"
                       min="1"
                       max="10"
-                      defaultValue={parseInt(item.value.quantity)}
+                      value={parseInt(item.value.quantity)}
                       onChange={(e) =>
                         handleQuantityChange(index, e.target.value)
                       }
@@ -160,7 +245,7 @@ const ShowCart = () => {
                       className="backIcon"
                       title="Xóa sản phẩm này!"
                       style={{ color: "red", fontSize: "200%", width: "50px" }}
-                      onClick={handleDelete}
+                      onClick={() => handleDelete(index)}
                     />
                   </td>
                 </tr>

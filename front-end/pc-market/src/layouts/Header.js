@@ -9,24 +9,24 @@ import {
 } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import Auth from "../components/auth/Auth";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useReducer, useState } from "react";
 import apiRouteConfig from "../apiRouteConfig";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { BiSearchAlt } from "react-icons/bi";
 import "../components/styles.css";
+import CartCounterReducer from "../reducers/CartCounterReducer";
+import { CartCounterContext } from "../App";
 
-const Header = ({ isLoggedIn, onLogin }) => {
+const Header = () => {
   const userRole = localStorage.getItem("userRole");
   const isAdmin = userRole && userRole === "ADMIN";
+
+  const [cartCounter, ] = useContext(CartCounterContext)
 
   //count item in carts
   // Retrieve cart array from sessionStorage and parse it, or initialize an empty array if it's not present
   const cartArray = JSON.parse(sessionStorage.getItem("cartArray")) || [];
-  // Calculate the total number of items in the cart
-  const totalItems = cartArray.reduce(
-    (total, item) => total + parseInt(item.value.quantity),
-    0
-  );
+
 
   const nav = useNavigate();
 
@@ -130,21 +130,21 @@ const Header = ({ isLoggedIn, onLogin }) => {
                 <span
                   style={{
                     position: "absolute",
-                    left: "70%",
+                    left: "50%",
                     top: "-60%",
                     backgroundColor: "coral",
                     padding: "0px 8px",
-                    borderRadius: "8px",
+                    borderRadius: "10px",
                     color: "#fff",
                   }}
                 >
-                  {totalItems}
+                  {cartCounter}
                 </span>
                 <AiOutlineShoppingCart
                   style={{
                     fontSize: "200%",
                     color: "coral",
-                    marginLeft: "10x",
+                    margin: "0 20 0 10",
                   }}
                 />
               </Link>
@@ -193,7 +193,7 @@ const Header = ({ isLoggedIn, onLogin }) => {
               ) : null}
             </Nav>
             <Nav.Link eventKey={2}>
-              <Auth isLogin={isLoggedIn} onLogin={onLogin} />
+              <Auth  />
             </Nav.Link>
           </Nav>
         </Navbar.Collapse>

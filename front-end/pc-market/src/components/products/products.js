@@ -27,6 +27,7 @@ const Products = () => {
   //get all products
   const token = localStorage.getItem("token") || null;
   useEffect(() => {
+
     fetch(`${apiRouteConfig.domain}/products`, {
       method: "GET",
       headers: {

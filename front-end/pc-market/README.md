@@ -1,4 +1,13 @@
-<!-- // nếu chưa có thư mục node_modules ==> chạy lệnh npm install hoặc yarn install để cài lại các dependencies cần thiết cho hệ thống   -->
+<!-- // nếu chưa có thư mục node_modules ==> chạy lệnh npm install hoặc yarn install để cài lại các dependencies cần thiết cho hệ thống 
+
+login with role admin:
+ +email: admin@gmail.com   
+ +password: 123456
+
+login with role customer:
+ +email: john@gmail.com
+ +password: 123456
+  -->
 
 # Getting Started with Create React App
 

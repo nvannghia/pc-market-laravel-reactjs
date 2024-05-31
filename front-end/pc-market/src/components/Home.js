@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useReducer, useState } from "react";
 import { Button, Card, Col, Container, Form, Row } from "react-bootstrap";
 import { useSearchParams } from "react-router-dom";
 import apiRouteConfig from "../apiRouteConfig";
@@ -7,10 +7,14 @@ import "./styles.css";
 import { GoArrowLeft, GoArrowRight } from "react-icons/go";
 import numeral from "numeral";
 import { BsCartPlus } from "react-icons/bs";
+import { CartCounterContext } from "../App";
+import Swal from 'sweetalert2';
 
 const Home = () => {
   const [products, setProducts] = useState([]);
   const [q] = useSearchParams();
+
+  const [cartCounter, cartDispatch] = useContext(CartCounterContext);
 
   //pagination
   const [currentPage, setCurrentPage] = useState(0);
@@ -42,9 +46,18 @@ const Home = () => {
       });
   }, [q]);
 
+
+
   //add item to cart
   const hanldeAddToCart = (evt) => {
     evt.preventDefault();
+
+    cartDispatch({
+      type: "inc",
+      payload: {
+        num: 1
+      }
+    })
 
     const formData = new FormData(evt.target); // Lấy dữ liệu từ form
 
@@ -97,7 +110,19 @@ const Home = () => {
       ];
       sessionStorage.setItem("cartArray", JSON.stringify(cartArray));
     }
-    alert(`Đã thêm sản phẩm \`${product.name}\` vào giỏ hàng!`);
+    
+    Swal.fire({
+      position: "center-center",
+      icon: "success",
+      title: "Đã thêm vào giỏ",
+      showConfirmButton: false,
+      timer: 1500,
+      width: '16em',
+      customClass: {
+        title: 'my-custom-title-class',
+        icon: 'my-custom-icon-class',
+      }
+    });
   };
 
   return (

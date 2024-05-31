@@ -1,12 +1,15 @@
 import { useContext, useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { BsReplyAllFill } from "react-icons/bs";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import apiRouteConfig from "../../apiRouteConfig";
+import { AuthContext } from "../../App";
 
-const UserLogin = ({ onLogin }) => {
+const UserLogin = () => {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
+
+  const [Auth, AuthDispatch] = useContext(AuthContext);
 
   const navigate = useNavigate();
 
@@ -26,18 +29,26 @@ const UserLogin = ({ onLogin }) => {
       .then((res) => res.json())
       .then((data) => {
         if (data.status === "success") {
-          console.log(data.user);
+          //save token
           localStorage.setItem("token", data.token);
-          localStorage.setItem("username", data.user.name);
-          localStorage.setItem("userID", data.user.id);
-          localStorage.setItem("userRole", data.user.role);
-          onLogin(true);
+
+          AuthDispatch({
+            type: "login",
+            payload: data.user,
+          });
+          
           navigate("/");
         } else {
           alert("Đăng nhập thất bại!");
         }
       });
   };
+  
+
+  if (Auth != null) {
+    return <Navigate  to="/"/>
+  }
+
   return (
     <div
       style={{

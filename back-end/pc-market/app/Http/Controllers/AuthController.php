@@ -35,7 +35,7 @@ class AuthController extends Controller
     {
         JWTAuth::parseToken()->invalidate();
 
-        return response()->json(['message' => 'Đã đăng xuất thành công'], 200);
+        return response()->json(['message' => 'Đã đăng xuất thành công'], 200); 
     }
 
 
